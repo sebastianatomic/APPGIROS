@@ -1,0 +1,39 @@
+﻿@model IEnumerable<APPGIROS.Models.CIUDAD>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre_Ciudad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PAIS.Nombre_Pais)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre_Ciudad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PAIS.Nombre_Pais)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Ciudad }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id_Ciudad }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Ciudad })
+        </td>
+    </tr>
+}
+
+</table>

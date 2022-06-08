@@ -1,0 +1,34 @@
+﻿@model APPGIROS.Models.CIUDAD
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CIUDAD</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre_Ciudad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre_Ciudad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PAIS.Nombre_Pais)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PAIS.Nombre_Pais)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Ciudad }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

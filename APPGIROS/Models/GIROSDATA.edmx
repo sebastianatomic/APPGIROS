@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GIROSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CIUDAD">
+          <Key>
+            <PropertyRef Name="Id_Ciudad" />
+          </Key>
+          <Property Name="Id_Ciudad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre_Ciudad" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Id_Pais" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GGIROS">
+          <Key>
+            <PropertyRef Name="Id_Giros" />
+          </Key>
+          <Property Name="Id_Giros" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Id_Ciudad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PAIS">
+          <Key>
+            <PropertyRef Name="Id_Pais" />
+          </Key>
+          <Property Name="Id_Pais" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre_Pais" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CIUDAD_PAIS">
+          <End Role="PAIS" Type="Self.PAIS" Multiplicity="1" />
+          <End Role="CIUDAD" Type="Self.CIUDAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAIS">
+              <PropertyRef Name="Id_Pais" />
+            </Principal>
+            <Dependent Role="CIUDAD">
+              <PropertyRef Name="Id_Pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_grupo">
+          <End Role="CIUDAD" Type="Self.CIUDAD" Multiplicity="1" />
+          <End Role="GGIROS" Type="Self.GGIROS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CIUDAD">
+              <PropertyRef Name="Id_Ciudad" />
+            </Principal>
+            <Dependent Role="GGIROS">
+              <PropertyRef Name="Id_Ciudad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GIROSModelStoreContainer">
+          <EntitySet Name="CIUDAD" EntityType="Self.CIUDAD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GGIROS" EntityType="Self.GGIROS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PAIS" EntityType="Self.PAIS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CIUDAD_PAIS" Association="Self.FK_CIUDAD_PAIS">
+            <End Role="PAIS" EntitySet="PAIS" />
+            <End Role="CIUDAD" EntitySet="CIUDAD" />
+          </AssociationSet>
+          <AssociationSet Name="fk_grupo" Association="Self.fk_grupo">
+            <End Role="CIUDAD" EntitySet="CIUDAD" />
+            <End Role="GGIROS" EntitySet="GGIROS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GIROSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CIUDAD">
+          <Key>
+            <PropertyRef Name="Id_Ciudad" />
+          </Key>
+          <Property Name="Id_Ciudad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre_Ciudad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id_Pais" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PAIS" Relationship="Self.FK_CIUDAD_PAIS" FromRole="CIUDAD" ToRole="PAIS" />
+          <NavigationProperty Name="GGIROS" Relationship="GIROSModel.fk_grupo" FromRole="CIUDAD" ToRole="GGIROS" />
+        </EntityType>
+        <EntityType Name="PAIS">
+          <Key>
+            <PropertyRef Name="Id_Pais" />
+          </Key>
+          <Property Name="Id_Pais" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre_Pais" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CIUDAD" Relationship="Self.FK_CIUDAD_PAIS" FromRole="PAIS" ToRole="CIUDAD" />
+        </EntityType>
+        <Association Name="FK_CIUDAD_PAIS">
+          <End Role="PAIS" Type="Self.PAIS" Multiplicity="1" />
+          <End Role="CIUDAD" Type="Self.CIUDAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAIS">
+              <PropertyRef Name="Id_Pais" />
+            </Principal>
+            <Dependent Role="CIUDAD">
+              <PropertyRef Name="Id_Pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GIROSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CIUDAD" EntityType="Self.CIUDAD" />
+          <EntitySet Name="PAIS" EntityType="Self.PAIS" />
+          <AssociationSet Name="FK_CIUDAD_PAIS" Association="Self.FK_CIUDAD_PAIS">
+            <End Role="PAIS" EntitySet="PAIS" />
+            <End Role="CIUDAD" EntitySet="CIUDAD" />
+          </AssociationSet>
+          <EntitySet Name="GGIROS" EntityType="GIROSModel.GGIROS" />
+          <AssociationSet Name="fk_grupo" Association="GIROSModel.fk_grupo">
+            <End Role="CIUDAD" EntitySet="CIUDAD" />
+            <End Role="GGIROS" EntitySet="GGIROS" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="GGIROS">
+          <Key>
+            <PropertyRef Name="Id_Giros" />
+          </Key>
+          <Property Name="Id_Giros" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Ciudad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CIUDAD" Relationship="GIROSModel.fk_grupo" FromRole="GGIROS" ToRole="CIUDAD" />
+        </EntityType>
+        <Association Name="fk_grupo">
+          <End Type="GIROSModel.CIUDAD" Role="CIUDAD" Multiplicity="1" />
+          <End Type="GIROSModel.GGIROS" Role="GGIROS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CIUDAD">
+              <PropertyRef Name="Id_Ciudad" />
+            </Principal>
+            <Dependent Role="GGIROS">
+              <PropertyRef Name="Id_Ciudad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GIROSModelStoreContainer" CdmEntityContainer="GIROSEntities">
+          <EntitySetMapping Name="CIUDAD">
+            <EntityTypeMapping TypeName="GIROSModel.CIUDAD">
+              <MappingFragment StoreEntitySet="CIUDAD">
+                <ScalarProperty Name="Id_Ciudad" ColumnName="Id_Ciudad" />
+                <ScalarProperty Name="Nombre_Ciudad" ColumnName="Nombre_Ciudad" />
+                <ScalarProperty Name="Id_Pais" ColumnName="Id_Pais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PAIS">
+            <EntityTypeMapping TypeName="GIROSModel.PAIS">
+              <MappingFragment StoreEntitySet="PAIS">
+                <ScalarProperty Name="Id_Pais" ColumnName="Id_Pais" />
+                <ScalarProperty Name="Nombre_Pais" ColumnName="Nombre_Pais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GGIROS">
+            <EntityTypeMapping TypeName="GIROSModel.GGIROS">
+              <MappingFragment StoreEntitySet="GGIROS">
+                <ScalarProperty Name="Id_Ciudad" ColumnName="Id_Ciudad" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Giros" ColumnName="Id_Giros" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

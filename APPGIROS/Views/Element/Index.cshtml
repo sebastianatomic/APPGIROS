@@ -1,0 +1,130 @@
+﻿@model List<SelectListItem>
+@{
+    ViewBag.Title = "Index";
+}
+<body>
+
+
+    <h2>Index</h2>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="form-group">
+                PAISES
+                @Html.DropDownList("Pais", Model, new { @class = "form-control", id = "Pais" })
+
+            </div>
+
+            <div class="form-group">
+                CIUDADES
+                <select class="form-select" id="ciudad" name="ciudad">
+                </select>
+
+            </div>
+
+        </div>
+
+        <div>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Id Ciudad </th>
+                        <th scope="col">Id giro</th>
+                       
+                    </tr>
+                </thead>
+                <tbody id="contenido">
+                  
+                  
+              
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+
+    </div>
+
+    <script>
+    var Pais = document.getElementById("Pais");
+    Pais.addEventListener("change", Refresh);
+    Refresh();
+
+
+        var Ciudad = document.getElementById("ciudad");
+        Ciudad.addEventListener("change", RefreshCiudad);
+        RefreshCiudad();
+
+    function Refresh() {
+        fetch("@Url.Content("~/Element/Ciudad")" + "?IdPais=" + Pais.value)
+            .then(function (result) {
+                if (result.ok) {
+                    return result.json();
+                }
+            })
+            .then(function (data) {
+
+                cbo = document.getElementById("ciudad");
+                cbo.innerHTML = "";
+                data.forEach (function (element) {
+
+                    let opt = document.createElement("option");
+                    opt.appendChild(document.createTextNode(element.Text));
+                    opt.value = element.Value;
+
+                    cbo.appendChild(opt);
+                })
+            })
+    }
+
+
+    function RefreshCiudad() {
+
+        fetch("@Url.Content("~/Element/DatosTabla")" + "?IdCiudad=" + Ciudad.value)
+            .then(function (result) {
+                if (result.ok) {
+                    return result.json();
+
+                }
+            })
+
+            .then(function (data) {
+               
+            tabla(data);
+                
+            })
+
+           
+
+
+
+
+        function tabla(data) {
+            contenido.innerHTML = '';
+            for (let valor of data) {
+              
+
+             
+                contenido.innerHTML += `
+
+                            <tr>
+                        <th scope="row">${valor.Text}</th>
+                        <td>${valor.idCiudad}</td>
+                             <td>${valor.Value}</td>
+                        
+                    </tr>
+
+                                      `;
+            }
+
+           
+        }
+
+
+    }
+    </script>
+
+</body>
